@@ -6,22 +6,34 @@ import { vertexShader, fragmentShader } from '../shaders/shaders';
 export default class Particles {
 	constructor({
 		scene,
-		numParticles 		= 100000,
-		uniforms 				= {
-			sizeMultipler:	{ value: (window.innerHeight * window.devicePixelRatio) / 2 },
-			color:					{ value: new THREE.Color( 0xffffff ) }
+		numParticles 				= 100000,
+		uniforms 						= {
+			sizeMultipler:			{ value: (window.innerHeight * window.devicePixelRatio) / 2 },
+			color:							{ value: new THREE.Color( 0xffffff ) }
 		},
-		blending 				= THREE.AdditiveBlending,
-		transparent 		= true,
-		depthTest 			= true,
-		depthWrite 			= false,
+		blending 						= THREE.AdditiveBlending,
+		transparent 				= true,
+		depthTest 					= true,
+		depthWrite 					= false,
 
-		renderer
+		renderer,
+
+		particleSize 				= 0.1,
+		particleSizeInc 		= 0.0002,
+		zInc								= 0.0003,
+		yInc								= 0.001,
+		yThreshold 					= 0.2
 	}) {
 		this.scene 								= scene;
 		this.numParticles 				= numParticles;
 		this.renderer 						= renderer;
 		this.uniforms 						= uniforms;
+
+		this.particleSize					= particleSize;
+		this.particleSizeInc			= particleSizeInc;
+		this.zInc 								= zInc;
+		this.yInc 								= yInc;
+		this.yThreshold 					= yThreshold;
 
 		this.video 								= document.createElement('video');
 		navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
@@ -38,7 +50,6 @@ export default class Particles {
 		const video 							= this.video;
 		const renderer 						= this.renderer;
 		const numParticles				= this.numParticles;
-		const particleSize				= 0.015;
 		const IMAGE_RATIO 				= video.width / video.height;
 		const COL_RATIO 					= IMAGE_RATIO > 1 ? IMAGE_RATIO : 1;
 		const ROW_RATIO 					= IMAGE_RATIO > 1 ? 1 : video.height / video.width;
@@ -62,11 +73,15 @@ export default class Particles {
 			uniforms: {
 				tWidth: { type: 'f', value: tWidth },
 				tHeight: { type: 'f', value: tHeight },
-				size: { type: 'f', value: particleSize }
+
+				tSize: { type: 't', value: 0 },
+				yThreshold: { type: 'f', value: this.yThreshold }
 			},
 			simulationVertexShader,
 			simulationFragmentShader
 		});
+
+		this.FBO.setTextureUniform('tSize', this.getSizes());
 
 		const videoImage = this.videoImage = document.createElement('canvas');
 		const videoImageContext = this.videoImageContext = videoImage.getContext('2d');
@@ -109,6 +124,23 @@ export default class Particles {
 			`Rows: ${tHeight}`);
 
 		this.ready = true;
+	}
+
+	getSizes() {
+		const sizes = new Float32Array(this.numParticles * 4);
+		for (let i = 0, i4 = 0; i < this.numParticles; i++, i4 += 4) {
+			sizes[i4] = this.zInc * Math.random();
+			sizes[i4 + 1] = this.yInc * Math.random();
+			sizes[i4 + 2] = this.calcSize();
+			sizes[i4 + 3] = this.particleSizeInc * Math.random();
+		}
+		return sizes;
+	}
+
+	calcSize() {
+		const size = this.particleSize * Math.random();
+
+		return size;
 	}
 
 	update() {

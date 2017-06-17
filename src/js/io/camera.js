@@ -1,7 +1,7 @@
 export default class Camera {
 	constructor({
 		fov = 45,
-		aspectRatio = 1,
+		aspectRatio = window.innerHeight / window.innerWidth,
 		near = 0.01,
 		far = 500,
 		position = {

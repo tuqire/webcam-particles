@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (isWebglEnabled) {
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
-		const aspectRatio =  WIDTH / HEIGHT;
+		const aspectRatio =  1;
 
 		const container = document.getElementById('container');
 
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			position: {
 				x: 0,
 				y: 0,
-				z: 1
+				z: -1.5
 			}
 		});
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const stats = new Stats();
 
 		const particles = new Particles({
-			numParticles: 20000,
+			numParticles: 30000,
 			scene,
 			renderer
 		});
