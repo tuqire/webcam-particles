@@ -24,12 +24,12 @@ const simulationFragmentShader = `
 	uniform sampler2D tPrevFrame;
 	uniform sampler2D tFrame;
 
+	uniform vec3 mouse;
 	uniform sampler2D tSize;
+	uniform float yThreshold;
 
 	uniform float tWidth;
 	uniform float tHeight;
-
-	uniform float yThreshold;
 
 	vec3 getPos(vec3 defaultPos) {
 		vec3 prevPos = texture2D(tPrevFrame, vUv).xyz;
@@ -39,7 +39,11 @@ const simulationFragmentShader = `
 
 		vec3 pos = currPos;
 
-		if (pos == vec3(0.0, 0.0, 0.0) || pos.y - yThreshold > defaultPos.y) {
+		float dist = length(pos - mouse);
+
+		if (dist < 0.06) {
+			pos += pos - mouse;
+		} else if (pos == vec3(0.0, 0.0, 0.0) || pos.y - yThreshold > defaultPos.y) {
 			pos = defaultPos;
 		} else {
 			pos.y += yInc;

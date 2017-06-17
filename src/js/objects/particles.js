@@ -18,7 +18,7 @@ export default class Particles {
 
 		renderer,
 
-		particleSize 				= 0.1,
+		particleSize 				= 0.06,
 		particleSizeInc 		= 0.0002,
 		zInc								= 0.0003,
 		yInc								= 0.001,
@@ -35,6 +35,9 @@ export default class Particles {
 		this.yInc 								= yInc;
 		this.yThreshold 					= yThreshold;
 
+		this.windowHalfX = window.innerWidth / 2;
+		this.windowHalfY = window.innerHeight / 2;
+
 		this.video 								= document.createElement('video');
 		navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
 			const video 						= this.video;
@@ -44,6 +47,13 @@ export default class Particles {
 
 			this.addParticles();
 		}, () => console.error('video failed to load'));
+	}
+
+	onDocumentMouseMove(event) {
+		this.mouseX = this.windowHalfX - event.clientX;
+		this.mouseY = event.clientY - this.windowHalfY;
+
+		this.FBO.simulationShader.uniforms.mouse.value.set(0.5 * this.mouseX / this.windowHalfX, - 0.5 * this.mouseY / this.windowHalfY, 0);
 	}
 
 	addParticles() {
@@ -73,6 +83,7 @@ export default class Particles {
 			uniforms: {
 				tWidth: { type: 'f', value: tWidth },
 				tHeight: { type: 'f', value: tHeight },
+				mouse: { value: new THREE.Vector3(10000, 10000, 10000) },
 
 				tSize: { type: 't', value: 0 },
 				yThreshold: { type: 'f', value: this.yThreshold }
@@ -124,6 +135,7 @@ export default class Particles {
 			`Rows: ${tHeight}`);
 
 		this.ready = true;
+		document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
 	}
 
 	getSizes() {
