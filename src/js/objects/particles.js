@@ -6,23 +6,23 @@ import { vertexShader, fragmentShader } from '../shaders/shaders';
 export default class Particles {
 	constructor({
 		scene,
-		numParticles 		= 100000,
-		uniforms 				= {
-			sizeMultipler:	{ value: (window.innerHeight * window.devicePixelRatio) / 2 },
-			color:					{ value: new THREE.Color( 0xffffff ) }
+		numParticles 				= 100000,
+		uniforms 						= {
+			sizeMultipler:			{ value: (window.innerHeight * window.devicePixelRatio) / 2 },
+			color:							{ value: new THREE.Color( 0xffffff ) }
 		},
-		blending 				= THREE.AdditiveBlending,
-		transparent 		= true,
-		depthTest 			= true,
-		depthWrite 			= false,
+		blending 						= THREE.AdditiveBlending,
+		transparent 				= true,
+		depthTest 					= true,
+		depthWrite 					= false,
 
 		renderer,
 
-		particleSize 		= 0.1,
-		particleSizeInc = 0.0002,
-		zInc						= 0.0002,
-		yInc						= 0.001,
-		yThreshold 			= 0.2
+		particleSize 				= 0.1,
+		particleSizeInc 		= 0.0002,
+		zInc								= 0.0003,
+		yInc								= 0.001,
+		yThreshold 					= 0.2
 	}) {
 		this.scene 								= scene;
 		this.numParticles 				= numParticles;

@@ -39,7 +39,7 @@ const simulationFragmentShader = `
 
 		vec3 pos = currPos;
 
-		if (currPos == vec3(0.0, 0.0, 0.0) || pos.y - yThreshold > defaultPos.y) {
+		if (pos == vec3(0.0, 0.0, 0.0) || pos.y - yThreshold > defaultPos.y) {
 			pos = defaultPos;
 		} else {
 			pos.y += yInc;
@@ -54,9 +54,9 @@ const simulationFragmentShader = `
 		float incSize = texture2D(tSize, vUv).w;
 		float currSize = texture2D(tFrame, vUv).w;
 
-		currSize += currSize > defaultSize + (incSize * 60.0) ? 0.0 : incSize;
+		currSize += incSize;
 
-		if (pos.y == defaultPos.y) {
+		if (pos.y < defaultPos.y + 0.06) {
 			currSize = defaultSize / 2.0;
 		}
 
