@@ -4,7 +4,7 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 
 const devConfig = Object.create(require('../webpack.config.js'));
-const port = '8082';
+const port = '8084';
 
 gulp.task('server', () => {
 	devConfig.devtool = 'eval';

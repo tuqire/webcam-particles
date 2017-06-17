@@ -29,8 +29,6 @@ export default class FBO {
 		});
 
 		this.targets = [];
-		this.dataTextures = {};
-		this.dataTextureCallbacks = {};
 
 		for (let i = 0; i < this.numTargets; i++) {
 			this.targets.push(this.createTarget());
@@ -69,16 +67,14 @@ export default class FBO {
 		this.plane.addAttribute(name, new THREE.BufferAttribute(data, countPerVertices));
 	}
 
-	setTextureUniform(name, data) {
+	setTextureUniform(name, data, format = this.format) {
 		const dataTexture = new THREE.DataTexture(
 			data,
 			this.tWidth,
 			this.tHeight,
-			this.format,
+			format,
 			this.type
 		);
-
-		// dataTexture.magFilter = THREE.NearestFilter;
 
 		dataTexture.minFilter = dataTexture.magFilter = this.filterType;
 		dataTexture.needsUpdate = true;
