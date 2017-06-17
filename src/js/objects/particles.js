@@ -130,7 +130,7 @@ export default class Particles {
 		const sizes = new Float32Array(this.numParticles * 4);
 		for (let i = 0, i4 = 0; i < this.numParticles; i++, i4 += 4) {
 			sizes[i4] = this.zInc * Math.random();
-			sizes[i4 + 1] = this.yInc * Math.random();
+			sizes[i4 + 1] = this.yInc * (Math.random() / 2 + 0.5);
 			sizes[i4 + 2] = this.calcSize();
 			sizes[i4 + 3] = this.particleSizeInc * Math.random();
 		}

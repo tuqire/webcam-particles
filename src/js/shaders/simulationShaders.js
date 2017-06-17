@@ -56,7 +56,9 @@ const simulationFragmentShader = `
 
 		currSize += incSize;
 
-		if (pos.y < defaultPos.y + 0.06) {
+		currSize += currSize > defaultSize + (incSize * 60.0) ? 0.0 : incSize;
+
+		if (pos.y == defaultPos.y) {
 			currSize = defaultSize / 2.0;
 		}
 
