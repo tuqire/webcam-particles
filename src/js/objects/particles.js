@@ -21,7 +21,7 @@ export default class Particles {
 		particleSize 				= 0.06,
 		particleSizeInc 		= 0.0002,
 		zInc								= 0.0003,
-		yInc								= 0.001,
+		yInc								= 0.0005,
 		yThreshold 					= 0.2
 	}) {
 		this.scene 								= scene;
@@ -53,7 +53,7 @@ export default class Particles {
 		this.mouseX = this.windowHalfX - event.clientX;
 		this.mouseY = event.clientY - this.windowHalfY;
 
-		this.FBO.simulationShader.uniforms.mouse.value.set(0.5 * this.mouseX / this.windowHalfX, - 0.5 * this.mouseY / this.windowHalfY, 0);
+		this.FBO.simulationShader.uniforms.mouse.value.set(0.5 * this.mouseX / this.windowHalfX, -0.5 * this.mouseY / this.windowHalfY, 0);
 	}
 
 	addParticles() {
