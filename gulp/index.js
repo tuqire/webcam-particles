@@ -1,8 +1,8 @@
-import gulp from 'gulp';
+const gulp = require('gulp');
 
-import './server';
-import './js-tasks';
-import './hbs-tasks';
+require('./server');
+require('./js-tasks');
+require('./hbs-tasks');
 
 gulp.task('default', ['server']);
 gulp.task('watch', ['watch-js', 'watch-hbs']);

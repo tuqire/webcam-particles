@@ -4,7 +4,6 @@ import Camera from './io/camera';
 import Controls from './io/controls';
 import Renderer from './io/renderer';
 import Stats from './io/stats';
-import GUI from './io/gui';
 
 import Scene from './objects/scene';
 import Particles from './objects/particles';
@@ -28,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	if (isWebglEnabled) {
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
-		const aspectRatio =  1;
+		const aspectRatio = 1;
 
 		const container = document.getElementById('container');
 
@@ -63,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			scene,
 			renderer
 		});
-
-	//	const gui = new GUI({ particles, scene });
 
 		const init = () => {
 			controls.onChange(render);
