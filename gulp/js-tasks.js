@@ -22,7 +22,7 @@ gulp.task('watch-js', () => {
 const prodConfig = Object.create(webpackConfig);
 
 gulp.task('build-js', (callback) => {
-	prodConfig.devtool = 'cheap-module-source-map';
+	prodConfig.devtool = 'source-map';
 	prodConfig.entry.vendor = ['detector-webgl', 'stats.js', 'three', 'three-trackballcontrols'];
 
 	prodConfig.plugins.push(
@@ -45,7 +45,7 @@ gulp.task('build-js', (callback) => {
 			colors: true
 		}));
 
-		prodConfig.output.path = path.resolve(__dirname, gitPortfolioOutput, 'js');
+		prodConfig.output.path = path.resolve(__dirname, '../', gitPortfolioOutput, 'js');
 
 		webpack(prodConfig, (err, stats) => {
 			if(err) throw new gutil.PluginError('build-prod-git', err);
