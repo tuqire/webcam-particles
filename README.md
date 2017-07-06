@@ -7,5 +7,5 @@ Works only in Chrome. Requires access to webcam.
 1) npm i && npm start
 2) go to http://localhost:8085
 
-## working example
-tuqire.github.io/webcam-particles
+## Working example
+http://tuqire.github.io/webcam-particles
