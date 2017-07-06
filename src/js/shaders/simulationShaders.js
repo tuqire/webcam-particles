@@ -41,7 +41,7 @@ const simulationFragmentShader = `
 
 		float dist = length(pos - mouse);
 
-		if (dist < 0.06) {
+		if (dist < 0.07) {
 			pos += pos - mouse;
 		} else if (pos == vec3(0.0, 0.0, 0.0) || pos.y - yThreshold > defaultPos.y) {
 			pos = defaultPos;

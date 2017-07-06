@@ -10,7 +10,7 @@ dest,
 publicPath,
 gitPortfolioOutput } = config;
 
-export {
+module.exports = {
   src,
   dest,
   publicPath,

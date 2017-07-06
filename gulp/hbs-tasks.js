@@ -1,9 +1,9 @@
-import gulp from 'gulp';
-import handlebars from 'gulp-compile-handlebars';
-import rename from 'gulp-rename';
-import htmlmin from 'gulp-htmlmin';
+const gulp = require('gulp');
+const handlebars = require('gulp-compile-handlebars');
+const rename = require('gulp-rename');
+const htmlmin = require('gulp-htmlmin');
 
-import { src, dest, gitPortfolioOutput } from '../config';
+const { src, dest, gitPortfolioOutput } = require('../config');
 
 function compileHandlebars(compress = false) {
 	gulp.src([`${src}/hbs/*.hbs`])

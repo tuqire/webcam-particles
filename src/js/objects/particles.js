@@ -21,7 +21,7 @@ export default class Particles {
 		particleSize 				= 0.06,
 		particleSizeInc 		= 0.0002,
 		zInc								= 0.0003,
-		yInc								= 0.0005,
+		yInc								= 0.0007,
 		yThreshold 					= 0.2
 	}) {
 		this.scene 								= scene;
@@ -35,18 +35,25 @@ export default class Particles {
 		this.yInc 								= yInc;
 		this.yThreshold 					= yThreshold;
 
-		this.windowHalfX = window.innerWidth / 2;
-		this.windowHalfY = window.innerHeight / 2;
+		this.windowHalfX 					= window.innerWidth / 2;
+		this.windowHalfY 					= window.innerHeight / 2;
 
 		this.video 								= document.createElement('video');
-		navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
-			const video 						= this.video;
-	  	video.src    						= URL.createObjectURL(stream);
-			video.width							= 480;
-			video.height						= 480;
 
-			this.addParticles();
-		}, () => console.error('video failed to load'));
+		const getUserMedia = navigator.getUserMedia || navigator.mediaDevices.getUserMedia;
+		const noSupport = document.createElement('h1');
+		noSupport.innerHTML = 'Your browser is not supported. Please use Google Chrome (v21 or above).';
+
+		navigator.getUserMedia
+			? navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
+				const video 						= this.video;
+		  	video.src    						= URL.createObjectURL(stream);
+				video.width							= 480;
+				video.height						= 480;
+
+				this.addParticles();
+			}, () => console.error('video failed to load'))
+			: document.getElementsByTagName('body')[0].append(noSupport);
 	}
 
 	onDocumentMouseMove(event) {

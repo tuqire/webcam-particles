@@ -1,0 +1,1 @@
+const tasks = require('./gulp/');

@@ -1,9 +1,9 @@
-import gulp from 'gulp';
-import flatten from 'gulp-flatten';
-import changed from 'gulp-changed';
+const gulp = require('gulp');
+const flatten = require('gulp-flatten');
+const changed = require('gulp-changed');
+const rename = require('gulp-rename');
 
-import config from '../config';
-const { src, dest } = config;
+const { src, dest } = require('../config');
 
 function moveFiles(compress = false) {
 	gulp.src([`${src}/manifest/manifest.json`])

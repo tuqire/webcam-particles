@@ -1,9 +1,8 @@
-import gulp from 'gulp';
-import sass from 'gulp-sass';
-import rename from 'gulp-rename';
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const rename = require('gulp-rename');
 
-import config from '../config';
-const { src, dest } = config;
+const { src, dest } = require('../config');
 
 function compileSass(compress = false) {
   gulp.src(`${src}/scss/**/*.scss`)
