@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const stats = new Stats();
 
 		const particles = new Particles({
-			numParticles: 30000,
+			numParticles: 150000,
 			scene,
 			renderer
 		});

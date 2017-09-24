@@ -59,7 +59,7 @@ export default class FBO {
 			antialias: true
 		});
 
-		target.texture.generateMipmaps = false;
+		// target.texture.generateMipmaps = false;
 		return target;
 	}
 
