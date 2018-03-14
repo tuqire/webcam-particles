@@ -15,7 +15,7 @@ function compileHandlebars(compress = false) {
 			collapseWhitespace: compress
 		}))
     .pipe(gulp.dest('dest'))
-    .pipe(gulp.dest(`${gitPortfolioOutput}`));
+    .pipe(gulp.dest(`../${gitPortfolioOutput}`));
 }
 
 gulp.task('build-hbs', () => {
