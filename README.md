@@ -1,11 +1,21 @@
-# Webcam Particles
-Testing THREE.js, GPGPU, raycasting, particles, WEBGL, GLSL
+# WEBGL Webcam Particles
 
-Works only in Chrome. Requires access to webcam.
+This project takes a webcam feed and creates particles effect out of it. Built using `THREE.js`, and `GPGPU`.
+
+Works only in Chrome. Requires access to your webcam.
 
 ## To run locally
-1) npm i && npm start
-2) go to http://localhost:8085
 
-## Working example
-http://tuqire.github.io/webcam-particles
+```bash
+yarn start
+```
+
+Then visit [http://localhost:8085](http://localhost:8085)
+
+## Working Demo
+
+[tuqire.github.io/webcam-particles/](tuqire.github.io/webcam-particles/)
+
+## Contributers
+
+* Tuqire Hussain <me@tuqire.com>

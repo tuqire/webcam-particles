@@ -2,8 +2,13 @@
   "name": "webcam-particles",
   "version": "1.1.0",
   "description": "Webcam Particles",
-  "main": "index.js",
-  "author": "Tuqire Hussain",
+  "main": "src/js/index.js",
+  "author": "Tuqire hussain <me@tuqire.com> (http://www.tuqire.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tuqire/webcam-particles/issues"
+  },
+  "homepage": "https://github.com/tuqire/webcam-particles#readme",
   "scripts": {
     "start": "gulp server",
     "watch": "gulp watch",
