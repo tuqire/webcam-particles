@@ -1,14 +1,7 @@
-const config = {
-  src: 'src',
-  dest: 'dest/assets',
-  publicPath: 'assets',
-  gitPortfolioOutput: '../../git-portfolio/webcam-particles'
-};
-
-const { src,
-dest,
-publicPath,
-gitPortfolioOutput } = config;
+const src = 'src';
+const dest = 'dest/assets';
+const publicPath = 'assets';
+const gitPortfolioOutput = 'tuqire.github/webcam-particles';
 
 module.exports = {
   src,

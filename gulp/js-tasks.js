@@ -3,27 +3,16 @@ const gutil = require('gulp-util');
 const path = require('path');
 const webpack = require('webpack');
 const webpackConfig = require('../webpack.config.js');
+const dependencies = require('../package.json').dependencies;
 
 const { src, dest, gitPortfolioOutput } = require('../config');
 
 const devConfig = Object.create(webpackConfig);
-
-gulp.task('watch-js', () => {
-	devConfig.watch = true;
-
-	webpack(devConfig, (err, stats) => {
-		if(err) throw new gutil.PluginError('build-dev', err);
-		gutil.log('[build-dev]', stats.toString({
-			colors: true
-		}));
-	});
-});
-
 const prodConfig = Object.create(webpackConfig);
 
 gulp.task('build-js', (callback) => {
 	prodConfig.devtool = 'source-map';
-	prodConfig.entry.vendor = ['detector-webgl', 'stats.js', 'three', 'three-trackballcontrols'];
+	prodConfig.entry.vendor = Object.keys(dependencies);
 
 	prodConfig.plugins.push(
 		new webpack.DefinePlugin({
@@ -34,9 +23,9 @@ gulp.task('build-js', (callback) => {
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: true
 		}),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
-    })
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'vendor'
+		})
 	);
 
 	webpack(prodConfig, (err, stats) => {
@@ -45,7 +34,7 @@ gulp.task('build-js', (callback) => {
 			colors: true
 		}));
 
-		prodConfig.output.path = path.resolve(__dirname, '../', gitPortfolioOutput, 'js');
+		prodConfig.output.path = path.resolve(__dirname, '../../', gitPortfolioOutput, 'js');
 
 		webpack(prodConfig, (err, stats) => {
 			if(err) throw new gutil.PluginError('build-prod-git', err);
@@ -55,5 +44,16 @@ gulp.task('build-js', (callback) => {
 
 			callback();
 		});
+	});
+});
+
+gulp.task('watch-js', () => {
+	devConfig.watch = true;
+
+	webpack(devConfig, (err, stats) => {
+		if(err) throw new gutil.PluginError('build-dev', err);
+		gutil.log('[build-dev]', stats.toString({
+			colors: true
+		}));
 	});
 });
