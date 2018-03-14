@@ -14,7 +14,7 @@ Then visit [http://localhost:8085](http://localhost:8085)
 
 ## Working Demo
 
-[tuqire.github.io/webcam-particles/](tuqire.github.io/webcam-particles/)
+[tuqire.github.io/webcam-particles/](https://tuqire.github.io/webcam-particles/)
 
 ## Contributers
 
