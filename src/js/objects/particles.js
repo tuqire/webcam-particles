@@ -19,7 +19,7 @@ export default class Particles {
 		renderer,
 
 		particleSize 				= 0.06,
-		particleSizeInc 		= 0.0002,
+		particleSizeInc 		= 0.00005,
 		zInc								= 0.0003,
 		yInc								= 0.0007,
 		yThreshold 					= 0.2
