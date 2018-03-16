@@ -4806,6 +4806,10 @@ three-trackballcontrols@0.0.5:
   dependencies:
     three "^0.74.0"
 
+three.js-fbo@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/three.js-fbo/-/three.js-fbo-1.4.4.tgz#cac60252a575d888f46d988d8f6fdf4e2905bf99"
+
 three@^0.74.0:
   version "0.74.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.74.0.tgz#648a2a418dae9e8b5de14661fdc84d38429b72da"

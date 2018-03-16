@@ -1,4 +1,4 @@
-import FBO from './FBO'
+import FBO from 'three.js-fbo'
 
 import { simulationVertexShader, simulationFragmentShader } from '../shaders/simulationShaders'
 import { vertexShader, fragmentShader } from '../shaders/shaders'
@@ -85,7 +85,7 @@ export default class Particles {
     this.FBO = new FBO({
       tWidth,
       tHeight,
-      renderer,
+      renderer: renderer.get(),
       uniforms: {
         tWidth: { type: 'f', value: tWidth },
         tHeight: { type: 'f', value: tHeight },
@@ -172,7 +172,6 @@ export default class Particles {
       }
 
       this.FBO.simulate()
-
       this.material.uniforms.tFrame.value = this.FBO.getCurrentFrame()
     }
   }
