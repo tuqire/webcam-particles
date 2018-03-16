@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/tuqire/webcam-particles#readme",
   "scripts": {
-    "start": "gulp server",
+    "start": "gulp build && gulp server",
     "watch": "gulp watch",
     "build": "gulp build"
   },
