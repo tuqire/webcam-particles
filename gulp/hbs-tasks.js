@@ -6,7 +6,7 @@ const htmlmin = require('gulp-htmlmin');
 const { src, dest, gitPortfolioOutput } = require('../config');
 
 function compileHandlebars(compress = false) {
-	gulp.src([`${src}/hbs/*.hbs`])
+	const htmlPipe = gulp.src([`${src}/hbs/*.hbs`])
     .pipe(handlebars())
 		.pipe(rename({
 			extname: '.html'
@@ -14,8 +14,12 @@ function compileHandlebars(compress = false) {
     .pipe(htmlmin({
 			collapseWhitespace: compress
 		}))
-    .pipe(gulp.dest('dest'))
-    .pipe(gulp.dest(`../${gitPortfolioOutput}`));
+    .pipe(gulp.dest('dest'));
+	
+	if (process.env.NODE_ENV === 'production') {
+		htmlPipe
+			.pipe(gulp.dest(`../${gitPortfolioOutput}`));
+	}
 }
 
 gulp.task('build-hbs', () => {

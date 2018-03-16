@@ -34,16 +34,20 @@ gulp.task('build-js', (callback) => {
 			colors: true
 		}));
 
-		prodConfig.output.path = path.resolve(__dirname, '../../', gitPortfolioOutput, 'js');
+		if (process.env.NODE_ENV === 'production') {
+			prodConfig.output.path = path.resolve(__dirname, '../../', gitPortfolioOutput, 'js');
 
-		webpack(prodConfig, (err, stats) => {
-			if(err) throw new gutil.PluginError('build-prod-git', err);
-			gutil.log('[build-prod]', stats.toString({
-				colors: true
-			}));
+			webpack(prodConfig, (err, stats) => {
+				if(err) throw new gutil.PluginError('build-prod-git', err);
+				gutil.log('[build-prod]', stats.toString({
+					colors: true
+				}));
 
+				callback();
+			});
+		} else {
 			callback();
-		});
+		}
 	});
 });
 
