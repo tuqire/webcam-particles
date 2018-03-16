@@ -23,8 +23,8 @@ const simulationFragmentShader = `
 
 	varying vec2 vUv;
 
-	uniform sampler2D tPrevFrame;
-	uniform sampler2D tFrame;
+	uniform sampler2D tPrev;
+	uniform sampler2D tCurr;
 
 	uniform vec3 mouse;
 	uniform sampler2D tSize;
@@ -34,8 +34,8 @@ const simulationFragmentShader = `
 	uniform float tHeight;
 
 	vec3 getPos(vec3 defaultPos) {
-		vec3 prevPos = texture2D(tPrevFrame, vUv).xyz;
-		vec3 currPos = texture2D(tFrame, vUv).xyz;
+		vec3 prevPos = texture2D(tPrev, vUv).xyz;
+		vec3 currPos = texture2D(tCurr, vUv).xyz;
 		float xInc = texture2D(tSize, vUv).x;
 		float yInc = texture2D(tSize, vUv).y;
 
@@ -45,7 +45,7 @@ const simulationFragmentShader = `
 
 		if (dist < 0.07) {
 			pos += pos - mouse;
-		} else if (pos == vec3(0.0, 0.0, 0.0) || pos.y - yThreshold > defaultPos.y) {
+		} else if (pos == vec3(0.0, 0.0, 0.0) || pos.y >  yThreshold + defaultPos.y) {
 			pos = defaultPos;
 		} else {
 			pos.y += yInc;
@@ -58,7 +58,7 @@ const simulationFragmentShader = `
 	float getSize(vec3 defaultPos, vec3 pos) {
 		float defaultSize = texture2D(tSize, vUv).z;
 		float incSize = texture2D(tSize, vUv).w;
-		float currSize = texture2D(tFrame, vUv).w;
+		float currSize = texture2D(tCurr, vUv).w;
 
 		currSize += incSize;
 

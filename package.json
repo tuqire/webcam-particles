@@ -20,7 +20,8 @@
     "detector-webgl": "^2.0.0",
     "stats.js": "^0.17.0",
     "three": "^0.85.0",
-    "three-trackballcontrols": "0.0.5"
+    "three-trackballcontrols": "0.0.5",
+    "three.js-fbo": "^1.4.4"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
