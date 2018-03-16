@@ -12,7 +12,8 @@
   "scripts": {
     "start": "gulp build && gulp server",
     "watch": "gulp watch",
-    "build": "gulp build"
+    "build": "gulp build",
+    "build:github": "NODE_ENV='production' gulp build"
   },
   "dependencies": {
     "detector-webgl": "^2.0.0",
