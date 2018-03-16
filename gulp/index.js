@@ -1,9 +1,9 @@
-const gulp = require('gulp');
+const gulp = require('gulp')
 
-require('./server');
-require('./js-tasks');
-require('./hbs-tasks');
+require('./server')
+require('./js-tasks')
+require('./hbs-tasks')
 
-gulp.task('default', ['server']);
-gulp.task('watch', ['watch-js', 'watch-hbs']);
-gulp.task('build', ['build-js', 'build-hbs']);
+gulp.task('default', ['server'])
+gulp.task('watch', ['watch-js', 'watch-hbs'])
+gulp.task('build', ['build-js', 'build-hbs'])

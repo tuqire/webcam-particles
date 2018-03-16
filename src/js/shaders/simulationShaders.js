@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const simulationVertexShader = `
 	varying vec2 vUv;
 
@@ -5,7 +7,7 @@ const simulationVertexShader = `
 	  vUv = vec2(uv);
 		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 	}
-`;
+`
 
 const simulationFragmentShader = `
 	/** generates a random number between 0 and 1 **/
@@ -78,9 +80,9 @@ const simulationFragmentShader = `
 		// write new position out
 		gl_FragColor = vec4(pos, size);
 	}
-`;
+`
 
 export {
-	simulationFragmentShader,
-	simulationVertexShader
-};
+  simulationFragmentShader,
+  simulationVertexShader
+}

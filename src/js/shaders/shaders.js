@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const fragmentShader = `
 	uniform sampler2D tTexture;
 
@@ -9,7 +11,7 @@ const fragmentShader = `
 		gl_FragColor = vec4(colors, 1.0);
 		if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.475) discard;
 	}
-`;
+`
 
 const vertexShader = `
 	uniform sampler2D tFrame;
@@ -28,9 +30,9 @@ const vertexShader = `
 		gl_PointSize = size * (sizeMultipler / -mvPosition.z);
 		gl_Position = projectionMatrix * mvPosition;
 	}
-`;
+`
 
 export {
-	fragmentShader,
-	vertexShader
-};
+  fragmentShader,
+  vertexShader
+}

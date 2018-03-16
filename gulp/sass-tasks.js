@@ -1,31 +1,31 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const rename = require('gulp-rename');
+const gulp = require('gulp')
+const sass = require('gulp-sass')
+const rename = require('gulp-rename')
 
-const { src, dest } = require('../config');
+const { src, dest } = require('../config')
 
-function compileSass(compress = false) {
+function compileSass (compress = false) {
   gulp.src(`${src}/scss/**/*.scss`)
     .pipe(
       sass({
         outputStyle: compress ? 'compressed' : 'nested'
       })
-      .on('error', sass.logError)
+        .on('error', sass.logError)
     )
-		.pipe(rename({
-			basename: 'main'
-		}))
-    .pipe(gulp.dest(`./${dest}/css`));
+    .pipe(rename({
+      basename: 'main'
+    }))
+    .pipe(gulp.dest(`./${dest}/css`))
 }
 
 gulp.task('build-sass', () => {
-	compileSass(true);
-});
+  compileSass(true)
+})
 
 gulp.task('dev-sass', () => {
-	compileSass();
-});
+  compileSass()
+})
 
 gulp.task('watch-sass', () => {
-  gulp.watch('src/scss/**/*.scss', ['dev-sass']);
-});
+  gulp.watch('src/scss/**/*.scss', ['dev-sass'])
+})

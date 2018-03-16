@@ -1,35 +1,35 @@
-const gulp = require('gulp');
-const handlebars = require('gulp-compile-handlebars');
-const rename = require('gulp-rename');
-const htmlmin = require('gulp-htmlmin');
+const gulp = require('gulp')
+const handlebars = require('gulp-compile-handlebars')
+const rename = require('gulp-rename')
+const htmlmin = require('gulp-htmlmin')
 
-const { src, dest, gitPortfolioOutput } = require('../config');
+const { src, gitPortfolioOutput } = require('../config')
 
-function compileHandlebars(compress = false) {
-	const htmlPipe = gulp.src([`${src}/hbs/*.hbs`])
+function compileHandlebars (compress = false) {
+  const htmlPipe = gulp.src([`${src}/hbs/*.hbs`])
     .pipe(handlebars())
-		.pipe(rename({
-			extname: '.html'
-		}))
+    .pipe(rename({
+      extname: '.html'
+    }))
     .pipe(htmlmin({
-			collapseWhitespace: compress
-		}))
-    .pipe(gulp.dest('dest'));
-	
-	if (process.env.NODE_ENV === 'production') {
-		htmlPipe
-			.pipe(gulp.dest(`../${gitPortfolioOutput}`));
-	}
+      collapseWhitespace: compress
+    }))
+    .pipe(gulp.dest('dest'))
+
+  if (process.env.NODE_ENV === 'production') {
+    htmlPipe
+      .pipe(gulp.dest(`../${gitPortfolioOutput}`))
+  }
 }
 
 gulp.task('build-hbs', () => {
-	compileHandlebars(true);
-});
+  compileHandlebars(true)
+})
 
 gulp.task('dev-hbs', () => {
-	compileHandlebars();
-});
+  compileHandlebars()
+})
 
 gulp.task('watch-hbs', () => {
-	gulp.watch(`${src}/hbs/**/*.hbs`, ['dev-hbs']);
-});
+  gulp.watch(`${src}/hbs/**/*.hbs`, ['dev-hbs'])
+})
