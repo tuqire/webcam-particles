@@ -10,18 +10,18 @@
   },
   "homepage": "https://github.com/tuqire/webcam-particles#readme",
   "scripts": {
+    "build": "NODE_ENV='production' webpack",
+    "build:github": "NODE_ENV='production' GITHUB='true' webpack",
     "lint": "eslint src && eslint webpack.config.js && eslint gulp",
-    "start": "gulp build && gulp server",
-    "watch": "gulp watch",
-    "build": "gulp build",
-    "build:github": "NODE_ENV='production' gulp build"
+    "start": "webpack-dev-server",
+    "watch": "gulp watch"
   },
   "dependencies": {
     "detector-webgl": "^2.0.0",
     "stats.js": "^0.17.0",
     "three": "^0.85.0",
     "three-trackballcontrols": "0.0.5",
-    "three.js-fbo": "^1.4.4"
+    "three.js-fbo": "^1.5.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -37,14 +37,11 @@
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "gulp": "^3.9.1",
-    "gulp-compile-handlebars": "^0.6.1",
-    "gulp-htmlmin": "^3.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-util": "^3.0.8",
+    "handlebars-loader": "^1.6.0",
+    "handlebars-webpack-plugin": "^1.4.1",
     "json-loader": "^0.5.4",
     "path": "^0.12.7",
     "webpack": "^3.0.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^2.6.1"
   }
 }
