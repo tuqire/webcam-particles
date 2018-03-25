@@ -1,27 +1,14 @@
 import isWebglEnabled from 'detector-webgl'
 
+import { getParameterByName } from './helpers'
+
 import Camera from './io/camera'
-import Controls from './io/controls'
+import GUI from './io/gui'
 import Renderer from './io/renderer'
 import Stats from './io/stats'
 
 import Scene from './objects/scene'
 import Particles from './objects/particles'
-
-function getParameterByName (name, url) {
-  if (!url) {
-    url = window.location.href
-  }
-
-  name = name.replace(/[[\]]/g, '\\$&')
-  const regex = new RegExp(`[?&]${name}(=([^&#]*)|&|#|$)`)
-  const results = regex.exec(url)
-
-  if (!results) return null
-  if (!results[2]) return ''
-
-  return decodeURIComponent(results[2].replace(/\+/g, ' '))
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   if (isWebglEnabled) {
@@ -44,15 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
       position: {
         x: 0,
         y: 0,
-        z: -1.5
+        z: -1.25
       }
-    })
-
-    const controls = new Controls({
-      minDistance: 0,
-      maxDistance: 1700,
-      camera: camera.get(),
-      rendererDomElement: renderer.getDomElement()
     })
 
     const stats = new Stats()
@@ -63,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer
     })
 
-    const init = () => {
-      controls.onChange(render)
+    const gui = new GUI({ particles }) // eslint-disable-line
 
+    const init = () => {
       if (getParameterByName('stats') === 'true') {
         container.appendChild(stats.getDomElement())
       }
@@ -73,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const animate = () => {
       requestAnimationFrame(animate) // eslint-disable-line
-      controls.update()
       render()
     }
 

@@ -3,6 +3,11 @@ import FBO from 'three.js-fbo'
 import { simulationVertexShader, simulationFragmentShader } from '../shaders/simulationShaders'
 import { vertexShader, fragmentShader } from '../shaders/shaders'
 
+export const SHAPES = {
+  CIRCLE: 'CIRCLE',
+  SQUARE: 'SQUARE'
+}
+
 export default class Particles {
   constructor ({
     scene,
@@ -18,10 +23,14 @@ export default class Particles {
 
     renderer,
 
+    mouseRadius = 0.05,
+    mousePush = 0.0001,
+
     particleSize = 0.06,
-    particleSizeInc = 0.00005,
-    zInc = 0.0003,
-    yInc = 0.0007,
+    particleSizeInc = 0.0001,
+    particleShape = SHAPES.CIRCLE,
+    xSpeed = 0.0003,
+    ySpeed = 0.0007,
     yThreshold = 0.2
   }) {
     this.scene = scene
@@ -29,10 +38,13 @@ export default class Particles {
     this.renderer = renderer
     this.uniforms = uniforms
 
+    this.mouseRadius = mouseRadius
+    this.mousePush = mousePush
     this.particleSize = particleSize
     this.particleSizeInc = particleSizeInc
-    this.zInc = zInc
-    this.yInc = yInc
+    this.particleShape = particleShape
+    this.xSpeed = xSpeed
+    this.ySpeed = ySpeed
     this.yThreshold = yThreshold
 
     this.windowHalfX = window.innerWidth / 2
@@ -53,6 +65,13 @@ export default class Particles {
         this.addParticles()
       }, () => console.error('video failed to load'))
       : document.getElementsByTagName('body')[0].append(noSupport)
+  }
+
+  updateParticleVars () {
+    this.FBO.simulationShader.uniforms.mouseRadius.value = this.mouseRadius
+    this.FBO.simulationShader.uniforms.mousePush.value = this.mousePush
+    this.FBO.simulationShader.uniforms.yThreshold.value = this.yThreshold
+    this.material.uniforms.isCircle.value = this.particleShape === SHAPES.CIRCLE
   }
 
   onDocumentMouseMove (event) {
@@ -91,14 +110,16 @@ export default class Particles {
         tHeight: { type: 'f', value: tHeight },
         mouse: { value: new THREE.Vector3(10000, 10000, 10000) },
 
-        tSize: { type: 't', value: 0 },
+        tParams: { type: 't', value: 0 },
+        mouseRadius: { type: 'f', value: this.mouseRadius },
+        mousePush: { type: 'f', value: this.mousePush },
         yThreshold: { type: 'f', value: this.yThreshold }
       },
       simulationVertexShader,
       simulationFragmentShader
     })
 
-    this.FBO.setTextureUniform('tSize', this.getSizes())
+    this.updateParticleParams()
 
     const videoImage = this.videoImage = document.createElement('canvas')
     this.videoImageContext = videoImage.getContext('2d')
@@ -110,8 +131,9 @@ export default class Particles {
     const material = this.material = new THREE.ShaderMaterial({
       blending: THREE.NormalBlending,
       uniforms: Object.assign({}, this.uniforms, {
-        tTexture: { type: 't', value: videoTexture },
-        tFrame: { type: 't', value: this.FBO.targets[0] }
+        isCircle: { type: 'b', value: this.particleShape === SHAPES.CIRCLE },
+        tVideo: { type: 't', value: videoTexture },
+        tParams: { type: 't', value: this.FBO.targets[0] }
       }),
       fragmentShader,
       vertexShader,
@@ -134,31 +156,38 @@ export default class Particles {
 
     this.scene.add(this.get())
 
-    console.log('scene loaded!',
-      `Expected: ${this.numParticles} particles`,
-      `Actual: ${geometry.vertices.length} particles`,
-      `Cols: ${tWidth}`,
-      `Rows: ${tHeight}`)
-
     this.ready = true
     document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false)
   }
 
-  getSizes () {
-    const sizes = new Float32Array(this.numParticles * 4)
+  updateParticleParams () {
+    const params = new Float32Array(this.numParticles * 4)
+
     for (let i = 0, i4 = 0; i < this.numParticles; i++, i4 += 4) {
-      sizes[i4] = this.zInc * Math.random()
-      sizes[i4 + 1] = this.yInc * (Math.random() / 2 + 0.5)
-      sizes[i4 + 2] = this.calcSize()
-      sizes[i4 + 3] = this.particleSizeInc * Math.random()
+      const speeds = this.getSpeeds()
+
+      params[i4] = speeds.x
+      params[i4 + 1] = speeds.y
+      params[i4 + 2] = this.getSize()
+      params[i4 + 3] = this.getSizeInc()
     }
-    return sizes
+
+    this.FBO.setTextureUniform('tParams', params)
   }
 
-  calcSize () {
-    const size = this.particleSize * Math.random()
+  getSpeeds () {
+    return {
+      x: this.xSpeed * Math.random(),
+      y: this.ySpeed * (Math.random() / 2 + 0.5)
+    }
+  }
 
-    return size
+  getSize () {
+    return this.particleSize * Math.random() / 2
+  }
+
+  getSizeInc () {
+    return this.particleSizeInc * Math.random() * 2
   }
 
   update () {
@@ -172,7 +201,7 @@ export default class Particles {
       }
 
       this.FBO.simulate()
-      this.material.uniforms.tFrame.value = this.FBO.getCurrentFrame()
+      this.material.uniforms.tParams.value = this.FBO.getCurrentFrame()
     }
   }
 

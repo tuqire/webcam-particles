@@ -1,20 +1,24 @@
 /* eslint-disable */
 
 const fragmentShader = `
-	uniform sampler2D tTexture;
+	uniform sampler2D tVideo;
+	uniform bool isCircle;
 
 	varying vec2 vUv;
 
 	void main() {
-		vec3 colors = texture2D(tTexture, vUv).xyz;
+		vec3 colors = texture2D(tVideo, vUv).xyz;
 
 		gl_FragColor = vec4(colors, 1.0);
-		if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.475) discard;
+
+		if (isCircle) {
+			if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.475) discard; // makes particles a circle
+		}
 	}
 `
 
 const vertexShader = `
-	uniform sampler2D tFrame;
+	uniform sampler2D tParams;
 	uniform float sizeMultipler;
 
 	varying vec2 vUv;
@@ -23,8 +27,8 @@ const vertexShader = `
 		vUv = position.xy;
 
 		// position saved as color value in a texture object in memory
-		vec3 pos = texture2D(tFrame, vUv).xyz;
-		float size = texture2D(tFrame, vUv).w;
+		vec3 pos = texture2D(tParams, vUv).xyz;
+		float size = texture2D(tParams, vUv).a;
 
 		vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 		gl_PointSize = size * (sizeMultipler / -mvPosition.z);
