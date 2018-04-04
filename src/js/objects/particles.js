@@ -124,6 +124,12 @@ export default class Particles {
     const videoImage = this.videoImage = document.createElement('canvas')
     this.videoImageContext = videoImage.getContext('2d')
 
+    const motionDetectionImage = this.motionDetectionImage = document.createElement('canvas')
+    this.motionDetectionContext = motionDetectionImage.getContext('2d')
+    this.motionDetectionContext.globalCompositeOperation = 'difference'
+
+    document.getElementById('container').appendChild(motionDetectionImage)
+
     const videoTexture = this.videoTexture = new THREE.Texture(videoImage)
     videoTexture.minFilter = videoTexture.magFilter = THREE.NearestFilter
     videoTexture.needsUpdate = true
@@ -160,6 +166,30 @@ export default class Particles {
     document.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false)
   }
 
+  calculateMotion () {
+    const IMAGE_SCORE_THRESHOLD = 100
+    const PIXEL_SCORE_THRESHOLD = 30
+    const imageData = this.motionDetectionContext.getImageData(0, 0, 480, 480)
+    let imageScore = 0
+
+    for (var i = 0; i < imageData.data.length; i += 4) {
+      const r = imageData.data[i] / 3
+      const g = imageData.data[i + 1] / 3
+      const b = imageData.data[i + 2] / 3
+      const pixelScore = r + g + b
+
+      if (pixelScore >= PIXEL_SCORE_THRESHOLD) {
+        imageScore++
+      }
+    }
+
+    this.motionDetectionContext.drawImage(this.video, 0, 0, 480, 480)
+
+    if (imageScore >= IMAGE_SCORE_THRESHOLD) {
+      // we have motion!
+    }
+  }
+
   updateParticleParams () {
     const params = new Float32Array(this.numParticles * 4)
 
@@ -193,8 +223,11 @@ export default class Particles {
   update () {
     if (this.ready) {
       // update video texture with webcam feed
-      const { video, videoImageContext, videoImage: { width: videoWidth, height: videoHeight }, videoTexture } = this
+      const { video, videoImageContext, motionDetectionContext, videoImage: { width: videoWidth, height: videoHeight }, videoTexture } = this
+
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        this.calculateMotion()
+        motionDetectionContext.drawImage(video, 0, 0, videoWidth, videoHeight)
         videoImageContext.drawImage(video, 0, 0, videoWidth, videoHeight)
 
         videoTexture.needsUpdate = true
