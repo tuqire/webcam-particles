@@ -12,6 +12,7 @@ export default class Camera {
     this.camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far)
 
     this.setPosition(position)
+    this.setLookAt()
 
     window.addEventListener('resize', this.onWindowResize.bind(this))
   }
@@ -47,6 +48,10 @@ export default class Camera {
 
   setZ (z) {
     this.camera.position.z = z
+  }
+
+  setLookAt () {
+    this.camera.lookAt(new THREE.Vector3(0, 0, 0))
   }
 
   update () {

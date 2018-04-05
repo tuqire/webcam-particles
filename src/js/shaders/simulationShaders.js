@@ -27,8 +27,10 @@ const simulationFragmentShader = `
 	uniform sampler2D tCurr;
 
 	uniform vec3 mouse;
-	uniform sampler2D tSize;
+	uniform sampler2D tParams;
 	uniform float yThreshold;
+	uniform float mouseRadius;
+	uniform float mousePush;
 
 	uniform float tWidth;
 	uniform float tHeight;
@@ -36,36 +38,35 @@ const simulationFragmentShader = `
 	vec3 getPos(vec3 defaultPos) {
 		vec3 prevPos = texture2D(tPrev, vUv).xyz;
 		vec3 currPos = texture2D(tCurr, vUv).xyz;
-		float xInc = texture2D(tSize, vUv).x;
-		float yInc = texture2D(tSize, vUv).y;
+		float xSpeed = texture2D(tParams, vUv).x;
+		float ySpeed = texture2D(tParams, vUv).y;
 
 		vec3 pos = currPos;
 
 		float dist = length(pos - mouse);
 
-		if (dist < 0.07) {
-			pos += pos - mouse;
+		if (dist < mouseRadius) {
+			vec3 velocity = currPos - prevPos;
+			pos += velocity + (normalize(pos - mouse) * mousePush);
 		} else if (pos == vec3(0.0, 0.0, 0.0) || pos.y >  yThreshold + defaultPos.y) {
 			pos = defaultPos;
 		} else {
-			pos.y += yInc;
-			pos.x += rand(vec2(defaultPos.x, defaultPos.y)) > 0.5 ? xInc : -xInc;
+			pos.y += ySpeed;
+			pos.x += rand(vec2(defaultPos.x, defaultPos.y)) > 0.5 ? xSpeed : -xSpeed;
 		}
 
 		return pos;
 	}
 
 	float getSize(vec3 defaultPos, vec3 pos) {
-		float defaultSize = texture2D(tSize, vUv).z;
-		float incSize = texture2D(tSize, vUv).w;
-		float currSize = texture2D(tCurr, vUv).w;
-
-		currSize += incSize;
+		float defaultSize = texture2D(tParams, vUv).z;
+		float incSize = texture2D(tParams, vUv).a;
+		float currSize = texture2D(tCurr, vUv).a;
 
 		currSize += currSize > defaultSize + (incSize * 60.0) ? 0.0 : incSize;
 
 		if (pos.y == defaultPos.y) {
-			currSize = defaultSize / 2.0;
+			currSize = defaultSize;
 		}
 
 		return currSize;
