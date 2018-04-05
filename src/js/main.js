@@ -48,12 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
 
-    const controls = new Controls({
-      minDistance: 0,
-      maxDistance: 1700,
-      camera: camera.get(),
-      rendererDomElement: renderer.getDomElement()
-    })
+    // const controls = new Controls({
+    //   minDistance: 0,
+    //   maxDistance: 1700,
+    //   camera: camera.get(),
+    //   rendererDomElement: renderer.getDomElement()
+    // })
 
     const stats = new Stats()
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     const init = () => {
-      controls.onChange(render)
+      // controls.onChange(render)
 
       if (getParameterByName('stats') === 'true') {
         container.appendChild(stats.getDomElement())
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const animate = () => {
       requestAnimationFrame(animate) // eslint-disable-line
-      controls.update()
+      // controls.update()
       render()
     }
 

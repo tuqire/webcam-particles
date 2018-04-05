@@ -107,6 +107,17 @@ export default class Particles {
     videoTexture.minFilter = videoTexture.magFilter = THREE.NearestFilter
     videoTexture.needsUpdate = true
 
+    const videoDiffImage = this.videoDiffImage = document.createElement('canvas')
+    this.videoDiffImageContext = videoDiffImage.getContext('2d')
+    videoDiffImage.height = 500
+    videoDiffImage.width = 500
+
+    const videoDiffTexture = this.videoDiffTexture = new THREE.Texture(videoDiffImage)
+    videoDiffTexture.minFilter = videoDiffTexture.magFilter = THREE.NearestFilter
+    videoDiffTexture.needsUpdate = true
+
+    document.getElementsByTagName('body')[0].prepend(videoDiffImage)
+
     const material = this.material = new THREE.ShaderMaterial({
       blending: THREE.NormalBlending,
       uniforms: Object.assign({}, this.uniforms, {
@@ -164,11 +175,27 @@ export default class Particles {
   update () {
     if (this.ready) {
       // update video texture with webcam feed
-      const { video, videoImageContext, videoImage: { width: videoWidth, height: videoHeight }, videoTexture } = this
+      const { video, videoImageContext, videoDiffImageContext, videoImage: { width: videoWidth, height: videoHeight }, videoTexture, videoDiffTexture } = this
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
         videoImageContext.drawImage(video, 0, 0, videoWidth, videoHeight)
 
         videoTexture.needsUpdate = true
+
+        const imgPixels = videoImageContext.getImageData(0, 0, videoWidth, videoHeight)
+
+        for (let y = 0; y < imgPixels.height; y += 1) {
+          for (let x = 0; x < imgPixels.width; x += 1) {
+            const i = (y * 4) * imgPixels.width + x * 4
+
+            imgPixels.data[i] -= imgPixels.data[i - 3]
+            imgPixels.data[i + 1] -= imgPixels.data[i - 2]
+            imgPixels.data[i + 2] -= imgPixels.data[i - 1]
+          }
+        }
+
+        videoDiffImageContext.putImageData(imgPixels, 0, 0, 0, 0, imgPixels.width, imgPixels.height)
+
+        videoDiffTexture.needsUpdate = true
       }
 
       this.FBO.simulate()
