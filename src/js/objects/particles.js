@@ -63,7 +63,7 @@ export default class Particles {
         video.height = 480
 
         this.addParticles()
-      }, () => console.error('video failed to load'))
+      }, err => console.error('video failed to load', err))
       : document.getElementsByTagName('body')[0].append(noSupport)
   }
 
