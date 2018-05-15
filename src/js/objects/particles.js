@@ -29,8 +29,8 @@ export default class Particles {
     particleSize = 0.06,
     particleSizeInc = 0.0001,
     particleShape = SHAPES.CIRCLE,
-    xSpeed = 0.0003,
-    ySpeed = 0.0007,
+    xSpeed = 0.00003,
+    ySpeed = 0.00006,
     yThreshold = 0.2
   }) {
     this.scene = scene

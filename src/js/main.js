@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const particles = new Particles({
       numParticles: 100000,
+      mousePush: 0.0002,
       scene,
       renderer
     })

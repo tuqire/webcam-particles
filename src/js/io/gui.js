@@ -13,8 +13,7 @@ export default class GUI {
     this.addMouseRadiusControls(particles)
     this.addMousePushControls(particles)
     this.addYThresholdControls(particles)
-    this.addXSpeedControls(particles)
-    this.addYSpeedControls(particles)
+    this.addSpeedControls(particles)
     this.addSizeControls(particles)
     this.addSizeIncControls(particles)
   }
@@ -56,21 +55,19 @@ export default class GUI {
       })
   }
 
-  addXSpeedControls (particles) {
+  addSpeedControls (particles) {
     this.gui.add(particles, 'xSpeed')
       .min(0.0000)
-      .max(0.001)
-      .step(0.0001)
+      .max(0.0005)
+      .step(0.000001)
       .onFinishChange(() => {
         particles.updateParticleParams()
       })
-  }
 
-  addYSpeedControls (particles) {
     this.gui.add(particles, 'ySpeed')
       .min(0.0000)
-      .max(0.001)
-      .step(0.0001)
+      .max(0.0005)
+      .step(0.000001)
       .onFinishChange(() => {
         particles.updateParticleParams()
       })

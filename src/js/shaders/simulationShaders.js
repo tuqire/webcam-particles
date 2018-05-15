@@ -36,23 +36,26 @@ const simulationFragmentShader = `
 	uniform float tHeight;
 
 	vec3 getPos(vec3 defaultPos) {
+		vec3 deacceleration = vec3(1.1);
 		vec3 prevPos = texture2D(tPrev, vUv).xyz;
 		vec3 currPos = texture2D(tCurr, vUv).xyz;
+		vec3 velocity = currPos == defaultPos ? vec3(0.0) : (currPos - prevPos) / deacceleration;
+		vec3 pos = currPos;
+		float distanceToMouse = length(pos - mouse);
+
+		if (distanceToMouse < mouseRadius) {
+			velocity += (normalize(pos - mouse) * mousePush);
+		}
+
 		float xSpeed = texture2D(tParams, vUv).x;
 		float ySpeed = texture2D(tParams, vUv).y;
+		velocity.y += ySpeed;
+		velocity.x += rand(vec2(defaultPos.x, defaultPos.y)) > 0.5 ? xSpeed : -xSpeed;
 
-		vec3 pos = currPos;
-
-		float dist = length(pos - mouse);
-
-		if (dist < mouseRadius) {
-			vec3 velocity = currPos - prevPos;
-			pos += velocity + (normalize(pos - mouse) * mousePush);
-		} else if (pos == vec3(0.0, 0.0, 0.0) || pos.y >  yThreshold + defaultPos.y) {
+		if (pos == vec3(0.0) || pos.y > yThreshold + defaultPos.y) {
 			pos = defaultPos;
 		} else {
-			pos.y += ySpeed;
-			pos.x += rand(vec2(defaultPos.x, defaultPos.y)) > 0.5 ? xSpeed : -xSpeed;
+			pos += velocity;
 		}
 
 		return pos;
