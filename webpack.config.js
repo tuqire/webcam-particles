@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const HandlebarsPlugin = require('handlebars-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const dependencies = require('./package.json').dependencies
 
 const outputPath = process.env.GITHUB === 'true' ? path.resolve(__dirname, '..', 'tuqire.github', 'webcam-particles') : path.resolve(__dirname, 'dest')
@@ -12,6 +13,10 @@ const plugins = [
     entry: path.join(process.cwd(), 'src', 'hbs', 'index.hbs'),
     output: `${outputPath}/[name].html`
   }),
+
+  new CopyWebpackPlugin([
+    { from: 'src/images', to: 'images' }
+  ]),
 
   new webpack.ProvidePlugin({
     THREE: 'three'
