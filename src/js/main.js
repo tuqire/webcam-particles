@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stats = new Stats()
 
     const particles = new Particles({
-      numParticles: 100000,
+      numParticles: window.matchMedia('(max-width: 480px)').matches ? 30000 : 100000,
       mousePush: 0.0002,
       scene,
       renderer
