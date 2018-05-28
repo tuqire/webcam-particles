@@ -7,7 +7,7 @@ const fragmentShader = `
 	varying vec2 vUv;
 
 	void main() {
-		vec3 colors = texture2D(tVideo, vUv).xyz;
+		vec3 colors = texture2D(tVideo, vUv).rgb;
 
 		gl_FragColor = vec4(colors, 1.0);
 
