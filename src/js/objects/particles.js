@@ -61,6 +61,7 @@ export default class Particles {
         video.src = URL.createObjectURL(stream) // eslint-disable-line
         video.width = 480
         video.height = 480
+        video.autoplay = true
 
         this.addParticles()
       }, err => console.error('video failed to load', err))
