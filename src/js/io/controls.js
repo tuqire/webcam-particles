@@ -2,7 +2,7 @@ import DatGUI from 'dat-gui'
 
 import { SHAPES } from '../objects/particles'
 
-export default class GUI {
+export default class Controls {
   constructor ({
     particles,
     scene

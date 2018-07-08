@@ -1,9 +1,7 @@
 import isWebglEnabled from 'detector-webgl'
 
-import { getParameterByName } from './helpers'
-
 import Camera from './io/camera'
-import GUI from './io/gui'
+import Controls from './io/controls'
 import Renderer from './io/renderer'
 import Stats from './io/stats'
 
@@ -44,12 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer
     })
 
-    const gui = new GUI({ particles }) // eslint-disable-line
-
     const init = () => {
-      if (getParameterByName('stats') === 'true') {
-        container.appendChild(stats.getDomElement())
-      }
+      new Controls({ particles }) // eslint-disable-line
+      container.appendChild(stats.getDomElement())
     }
 
     const animate = () => {
