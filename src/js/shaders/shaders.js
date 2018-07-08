@@ -26,7 +26,6 @@ const vertexShader = `
 	void main() {
 		vUv = position.xy;
 
-		// position saved as color value in a texture object in memory
 		vec3 pos = texture2D(tParams, vUv).xyz;
 		float size = texture2D(tParams, vUv).a;
 

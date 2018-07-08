@@ -58,7 +58,7 @@ export default class Particles {
     navigator.getUserMedia
       ? navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
         const video = this.video
-        video.src = URL.createObjectURL(stream) // eslint-disable-line
+        video.srcObject = stream
         video.width = 480
         video.height = 480
         video.autoplay = true
