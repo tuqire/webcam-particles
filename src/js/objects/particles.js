@@ -52,11 +52,8 @@ export default class Particles {
 
     this.video = document.createElement('video')
 
-    const noSupport = document.createElement('h1')
-    noSupport.innerHTML = 'Your browser is not supported. Please use Google Chrome (v21 or above).'
-
-    navigator.getUserMedia
-      ? navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
+    if (navigator.getUserMedia) {
+      navigator.getUserMedia({ video: { width: 1280, height: 720 } }, stream => {
         const video = this.video
         video.srcObject = stream
         video.width = 480
@@ -65,7 +62,10 @@ export default class Particles {
 
         this.addParticles()
       }, err => console.error('video failed to load', err))
-      : document.getElementsByTagName('body')[0].append(noSupport)
+    } else {
+      const info = document.getElementById('info')
+      info.innerHTML = 'Requires use of webcam. Please use the latest version of Chrome.'
+    }
   }
 
   updateParticleVars () {

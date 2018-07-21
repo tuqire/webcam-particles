@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     init()
     animate()
   } else {
-    const info = document.getElementById('info')
-    info.innerHTML = 'Your browser is not supported. Please use the latest version of Firefox or Chrome.'
+    const error = document.getElementById('error')
+    error.innerHTML = 'Your browser is not supported. Please use the latest version of Firefox or Chrome.'
   }
 })
