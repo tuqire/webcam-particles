@@ -1,15 +1,16 @@
 import isWebglEnabled from 'detector-webgl'
-
 import Camera from './io/camera'
 import Controls from './io/controls'
 import Renderer from './io/renderer'
 import Stats from './io/stats'
-
 import Scene from './objects/scene'
 import Particles from './objects/particles'
 
+const isNotMobileScreen = () => window.matchMedia('(min-width: 480px)').matches
+const isTabletScreen = () => window.matchMedia('(max-width: 1000px)').matches
+
 document.addEventListener('DOMContentLoaded', () => {
-  if (isWebglEnabled) {
+  if (isWebglEnabled && isNotMobileScreen()) {
     const WIDTH = window.innerWidth
     const HEIGHT = window.innerHeight
     const aspectRatio = 1
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stats = new Stats()
 
     const particles = new Particles({
-      numParticles: window.matchMedia('(max-width: 480px)').matches ? 30000 : 100000,
+      numParticles: isTabletScreen() ? 50000 : 100000,
       mousePush: 0.0002,
       scene,
       renderer
@@ -68,6 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animate()
   } else {
     const error = document.getElementById('error')
-    error.innerHTML = 'Your browser is not supported. Please use the latest version of Firefox or Chrome.'
+    error.innerHTML = 'This browser is not supported. Please use the latest version of Chrome on desktop.'
   }
 })
