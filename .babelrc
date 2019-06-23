@@ -1,8 +1,8 @@
 {
   "presets": [
-    "es2015",
-    ["env", {
-      "modules": false
+    ["@babel/preset-env", {
+      "modules": false,
+      "targets": "> 0.25%, not dead"
     }]
   ]
 }

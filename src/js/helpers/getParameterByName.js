@@ -1,4 +1,4 @@
-export const getParameterByName = (name, url) => {
+const getParameterByName = (name, url) => {
   if (!url) {
     url = window.location.href
   }
@@ -12,3 +12,5 @@ export const getParameterByName = (name, url) => {
 
   return decodeURIComponent(results[2].replace(/\+/g, ' '))
 }
+
+export default getParameterByName

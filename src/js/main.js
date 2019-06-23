@@ -6,16 +6,26 @@ import Stats from './io/stats'
 import Scene from './objects/scene'
 import Particles from './objects/particles'
 
-const isNotMobileScreen = () => window.matchMedia('(min-width: 480px)').matches
-const isTabletScreen = () => window.matchMedia('(max-width: 1000px)').matches
+import getParameterByName from './helpers/getParameterByName'
+import showInfoBox from './helpers/showInfoBox'
+import isNotMobileScreen from './helpers/isNotMobileScreen'
 
 document.addEventListener('DOMContentLoaded', () => {
+  const quality = Number(getParameterByName('quality'))
+
+  if (!quality || isNaN(quality)) {
+    document.getElementById('select-quality').style.display = 'block'
+    return
+  }
+
   if (isWebglEnabled && isNotMobileScreen()) {
+    showInfoBox()
+
     const WIDTH = window.innerWidth
     const HEIGHT = window.innerHeight
     const aspectRatio = 1
 
-    const container = document.getElementById('container')
+    const container = document.getElementById('simulation')
 
     const renderer = new Renderer({
       width: WIDTH,
@@ -37,8 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stats = new Stats()
 
     const particles = new Particles({
-      numParticles: isTabletScreen() ? 50000 : 100000,
-      mousePush: 0.0002,
+      numParticles: quality,
       scene,
       renderer
     })
@@ -68,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     init()
     animate()
   } else {
-    const error = document.getElementById('error')
-    error.innerHTML = 'This browser is not supported. Please use the latest version of Chrome on desktop.'
+    document.getElementById('no-support').style.display = 'block'
   }
 })

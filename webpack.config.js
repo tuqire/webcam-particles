@@ -1,17 +1,24 @@
 const webpack = require('webpack')
 const path = require('path')
-const HandlebarsPlugin = require('handlebars-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const dependencies = require('./package.json').dependencies
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+const isProduction = process.env.NODE_ENV === 'production'
 const outputPath = process.env.GITHUB === 'true' ? path.resolve(__dirname, '..', 'tuqire.github.io', 'webcam-particles') : path.resolve(__dirname, 'dest')
 
 const plugins = [
   new webpack.optimize.ModuleConcatenationPlugin(),
 
-  new HandlebarsPlugin({
-    entry: path.join(process.cwd(), 'src', 'hbs', 'index.hbs'),
-    output: `${outputPath}/[name].html`
+  new HtmlWebpackPlugin({
+    template: path.join(__dirname, 'src', 'html', 'index.html'),
+    minify: isProduction && {
+      html5: true,
+      collapseWhitespace: true,
+      caseSensitive: true,
+      removeComments: true
+    }
   }),
 
   new CopyWebpackPlugin([
@@ -20,35 +27,33 @@ const plugins = [
 
   new webpack.ProvidePlugin({
     THREE: 'three'
-  })
+  }),
+
+  new CleanWebpackPlugin()
 ]
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor'
-    }),
-
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }
     })
   )
+
+  plugins.push(
+    new webpack.HashedModuleIdsPlugin()
+  )
 }
 
 module.exports = env => ({
-  devtool: 'source-map',
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? 'none' : 'eval-source-map',
   entry: {
-    bundle: path.resolve(__dirname, 'src', 'js', 'main.js'),
-    vendor: Object.keys(dependencies)
+    main: path.resolve(__dirname, 'src', 'js', 'main.js')
   },
   output: {
-    filename: 'js/[name].js',
+    filename: 'js/[name].[hash].js',
     path: outputPath
   },
   module: {
@@ -65,6 +70,25 @@ module.exports = env => ({
         }
       }
     ]
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: !isProduction
+      })
+    ],
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
   },
   resolve: {
     extensions: ['.js', '.json']

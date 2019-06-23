@@ -27,9 +27,9 @@ export default class Controls {
 
   addYThresholdControls (particles) {
     this.gui.add(particles, 'yThreshold')
-      .min(0.05)
-      .max(0.5)
-      .step(0.05)
+      .min(0)
+      .max(1)
+      .step(0.005)
       .onFinishChange(() => {
         particles.updateParticleVars()
       })
@@ -38,8 +38,8 @@ export default class Controls {
   addMouseRadiusControls (particles) {
     this.gui.add(particles, 'mouseRadius')
       .min(0)
-      .max(0.1)
-      .step(0.01)
+      .max(0.5)
+      .step(0.005)
       .onFinishChange(() => {
         particles.updateParticleVars()
       })
@@ -48,8 +48,8 @@ export default class Controls {
   addMousePushControls (particles) {
     this.gui.add(particles, 'mousePush')
       .min(0.00001)
-      .max(0.0005)
-      .step(0.00001)
+      .max(0.001)
+      .step(0.000005)
       .onFinishChange(() => {
         particles.updateParticleVars()
       })
@@ -76,8 +76,8 @@ export default class Controls {
   addSizeControls (particles) {
     this.gui.add(particles, 'particleSize')
       .min(0.01)
-      .max(0.2)
-      .step(0.01)
+      .max(0.5)
+      .step(0.005)
       .onFinishChange(() => {
         particles.updateParticleParams()
       })
@@ -86,7 +86,7 @@ export default class Controls {
   addSizeIncControls (particles) {
     this.gui.add(particles, 'particleSizeInc')
       .min(0.00005)
-      .max(0.00039)
+      .max(0.0005)
       .step(0.00002)
       .onFinishChange(() => {
         particles.updateParticleParams()

@@ -24,14 +24,14 @@ export default class Particles {
     renderer,
 
     mouseRadius = 0.05,
-    mousePush = 0.0001,
+    mousePush = 0.0002,
 
     particleSize = 0.06,
     particleSizeInc = 0.0001,
     particleShape = SHAPES.CIRCLE,
     xSpeed = 0.00003,
-    ySpeed = 0.00006,
-    yThreshold = 0.2
+    ySpeed = 0.0001,
+    yThreshold = 0.1
   }) {
     this.scene = scene
     this.numParticles = numParticles
