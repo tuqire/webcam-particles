@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "Webcam Particles",
   "main": "src/js/index.js",
-  "author": "Tuqire hussain <me@tuqire.com> (http://www.tuqire.com)",
+  "author": "Tuqire Hussain <me@tuqire.com> (http://www.tuqire.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/tuqire/webcam-particles/issues"

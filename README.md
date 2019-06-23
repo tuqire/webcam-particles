@@ -1,16 +1,16 @@
-# WEBGL Webcam Particles
+# Webcam Particles
 
-This project takes a webcam feed and creates particles effect out of it. Built using `THREE.js`, and `GPGPU`.
+This project manipulates a particle system using your webcam. Built using `Javascript`, `THREE.js`, and [`GPGPU`](https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units).
 
-Works only in Chrome. Requires access to your webcam.
+Requires access to your webcam.
 
 ## To run locally
 
 ```bash
-yarn start
+yarn && yarn start
 ```
 
-Then visit [http://localhost:8085](http://localhost:8085)
+Then visit http://localhost:8085
 
 ## Working Demo
 
