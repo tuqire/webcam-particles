@@ -4816,13 +4816,13 @@ three.js-fbo@^1.5.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/three.js-fbo/-/three.js-fbo-1.6.0.tgz#5e8a057116d9a3894069f682ec169e9184910169"
 
+three@^0.125.0:
+  version "0.125.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.125.0.tgz#19e922b9dc51ad0b706893aeee888de68e99850a"
+
 three@^0.74.0:
   version "0.74.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.74.0.tgz#648a2a418dae9e8b5de14661fdc84d38429b72da"
-
-three@^0.84.0:
-  version "0.84.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.84.0.tgz#95be85a55a0fa002aa625ed559130957dcffd918"
 
 through2@^2.0.0:
   version "2.0.5"
